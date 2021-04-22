@@ -56,21 +56,33 @@ btnCrearActividad.addEventListener("click", (e) => {
           formulario.classList.remove("abirformulario");
           document.getElementById("form").reset();
         }, 2000);
-      } else {
-        tarjetaTarea.getContenidoMessage("Por favor Llena todos los campos");
-        reject(new Error("Los campos no ha recibido datos"));
+      } else {        
+        reject(new Error("Los campos no han recibido datos"));
       }
     });
   };
 
-  const functionAsync = async () => {
+functionPromise()
+                .then(res=>{
+                  tareas.push(res);
+                  tarjetaTarea.agregarTarea(res);
+                  document.querySelector(".message").remove();
+                }).catch(e=>{
+                  tarjetaTarea.getContenidoMessage("Por favor Llena todos los campos");
+                  console.error(e.message);
+                  setTimeout(() => {
+                    document.querySelector(".message").remove();
+                  }, 1500);
+                });
+   /*const functionAsync = () => {
     try {
-      const res = await functionPromise();
-      tareas.push(res);
-      //console.log(tareas);
-      tarjetaTarea.agregarTarea(res);
-    } catch (error) {
-      console.log(error);
+     const res = await functionPromise();
+     tareas.push(res);
+     console.log(tareas);
+      tarjetaTarea.agregarTarea(res);    
+    } catch (error) {      
+      tarjetaTarea.getContenidoMessage("Por favor Llena todos los campos");
+      console.error(error.message);
     } finally {
       setTimeout(() => {
         document.querySelector(".message").remove();
@@ -78,7 +90,7 @@ btnCrearActividad.addEventListener("click", (e) => {
     }
   };
 
-  functionAsync();
+  functionAsync();*/
 });
 
 
