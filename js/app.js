@@ -144,14 +144,12 @@ addEventListener("load", () => {
 
 /********************************Borrar tarjeta***************************************************/
 
-document.getElementById('tareas-progreso').addEventListener('click',(e)=>{
-  console.log(3);  
+document.getElementById('tarea-creada').addEventListener('click',(e)=>{
+  
   if(e.target.id==='borrar'){
       const elementoPadre =
       e.target.parentElement.parentElement.parentElement.parentElement;
       elementoPadre.remove();
-    }else{
-      console.log(2);
     }
     e.preventDefault();
 });
