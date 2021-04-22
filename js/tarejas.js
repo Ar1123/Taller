@@ -1,6 +1,5 @@
 export class TajetaTarea {
-  agregarTarea(tarea) {
-    console.log(tarea);
+  agregarTarea(tarea) {    
     const tarjeta = document.getElementById("tarea-creada");
     const elemento = document.createElement("div");
     elemento.innerHTML = `
@@ -11,8 +10,8 @@ export class TajetaTarea {
             <li>
                 <i class="fas fa-people-carry" style="color: gray;" id="mover"></i>
             </li>
-            <li id="borrar">
-                <i class="fas fa-trash-alt" style="color: red;"></i>
+            <li>
+                <i class="fas fa-trash-alt" style="color: red;" id="borrar"></i>
             </li>
         </ul>
     </div>

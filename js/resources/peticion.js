@@ -1,9 +1,4 @@
 export class Resources {
-  getUserDataF() {
-    return fetch("https://jsonplaceholder.typicode.com/users")
-  
-  }
-
   getUSerDataAA = async() =>{
     try{
            const res  = await fetch('https://jsonplaceholder.typicode.com/users');
@@ -22,7 +17,7 @@ export class Resources {
       console.log('ERROR: ', e);
     }
   }
-
+  
   getDatosLocal  =async()=>{
     try {
         const res  = await fetch('./db/json_local.json');

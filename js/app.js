@@ -1,15 +1,14 @@
 import { TajetaTarea } from "./tarejas.js";
 import { Resources } from "./resources/peticion.js";
-import { Tarea } from "./actividad.js";
 
 /**************************VARIABLES GLOBALES****************************************/
 const btnAbrir = document.getElementById("abirformulario"),
-      cajafor = document.getElementById("caja-formulario"),
-      formulario = document.getElementById("formulario"),
-      btnCerrar = document.getElementById("cerrar"),
-      btnCrearActividad = document.getElementById("aniade-datos"),
-      tarjetaTarea = new TajetaTarea(),
-      resources = new Resources();
+  cajafor = document.getElementById("caja-formulario"),
+  formulario = document.getElementById("formulario"),
+  btnCerrar = document.getElementById("cerrar"),
+  btnCrearActividad = document.getElementById("aniade-datos"),
+  tarjetaTarea = new TajetaTarea(),
+  resources = new Resources();
 let tareas = []; //contiene los datos de todas las tareas que son creadas
 
 /***********************PARA ABRIR EL  FORMULARIO**********************/
@@ -48,11 +47,10 @@ btnCrearActividad.addEventListener("click", (e) => {
         object.colaboradores != "" &&
         object.descripcion != ""
       ) {
-        console.log(object);
-        const tarea = new Tarea(object);
+        //console.log(object);
+
         tarjetaTarea.getContenidoMessage("Creando Tarea...");
-        setTimeout(() => {
-          //console.log(tarea);
+        setTimeout(() => {          
           resolve(object);
           cajafor.classList.remove("abirformulario");
           formulario.classList.remove("abirformulario");
@@ -69,6 +67,7 @@ btnCrearActividad.addEventListener("click", (e) => {
     try {
       const res = await functionPromise();
       tareas.push(res);
+      //console.log(tareas);
       tarjetaTarea.agregarTarea(res);
     } catch (error) {
       console.log(error);
@@ -82,6 +81,7 @@ btnCrearActividad.addEventListener("click", (e) => {
   functionAsync();
 });
 
+
 /***************************************Mover Tarjeta a progreso**********************************/
 
 document.getElementById("tareas-progreso").addEventListener("click", (e) => {
@@ -90,8 +90,7 @@ document.getElementById("tareas-progreso").addEventListener("click", (e) => {
       e.target.parentElement.parentElement.parentElement.parentElement;
     const titulo = elementoPadre.getElementsByTagName("h4")[0].innerHTML;
     const datosTarea = tareas.find((d) => d.tituloTarea === titulo);
-    
-    console.log(tareas);
+    //console.log(tareas);
     tarjetaTarea.tareaTerminada(datosTarea);
     elementoPadre.remove();
   }
@@ -105,45 +104,54 @@ document.getElementById("tarea-creada").addEventListener("click", (e) => {
     const elementoPadre =
       e.target.parentElement.parentElement.parentElement.parentElement;
     const titulo = elementoPadre.getElementsByTagName("h4")[0].innerHTML;
-    const datosTarea = tareas.find((d) => d.tituloTarea === titulo);    
+    const datosTarea = tareas.find((d) => d.tituloTarea === titulo);
     tarjetaTarea.tareaProgreso(datosTarea);
     elementoPadre.remove();
   }
 
   e.preventDefault();
 });
-/******************************************************Cargar  tarjetas predeterminadas */
+/************************Cargar  tarjetas predeterminadas******************************************/
 
-addEventListener("load", () => { 
-    resources.getUSerDataAA().then((data) =>{
-      let name =[] 
-        data.forEach(e=>{
-          name.push( {name:e.name});
-        })        
-        let i =0;
-      resources.getDatosLocal().then((data1) => {        
-        data1.forEach(d=>{
-          
-        
-          d.colaboradores = name[i].name +" , "+ name[data1.length-i].name;
-          tareas.push(d);
-        
-          i++;
-        });            
-        
-        for (let i = 0; i < data1.length; i++) {
-          if(i<1){
-            tarjetaTarea.agregarTarea(data1[i]);
-          }else if(i>1 && i<4){
-              tarjetaTarea.tareaProgreso(data1[i]);
-          }else{
-              tarjetaTarea.tareaTerminada(data1[1]);
-          }
-          
+addEventListener("load", () => {
+  resources.getUSerDataAA().then((data) => {
+    let name = [];
+    data.forEach((e) => {
+      name.push({ name: e.name });
+    });
+    let i = 0;
+    resources.getDatosLocal().then((data1) => {
+      data1.forEach((d) => {
+        d.colaboradores = name[i].name + " , " + name[data1.length - i].name;
+        tareas.push(d);
+
+        i++;
+      });
+
+      for (let i = 0; i < data1.length; i++) {
+        if (i < 1) {
+          tarjetaTarea.agregarTarea(data1[i]);
+        } else if (i > 1 && i < 4) {
+          tarjetaTarea.tareaProgreso(data1[i]);
+        } else {
+          tarjetaTarea.tareaTerminada(data1[1]);
         }
+      }
     });
   });
-    
+});
 
-  
+
+/********************************Borrar tarjeta***************************************************/
+
+document.getElementById('tareas-progreso').addEventListener('click',(e)=>{
+  console.log(3);  
+  if(e.target.id==='borrar'){
+      const elementoPadre =
+      e.target.parentElement.parentElement.parentElement.parentElement;
+      elementoPadre.remove();
+    }else{
+      console.log(2);
+    }
+    e.preventDefault();
 });
