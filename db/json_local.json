@@ -1,18 +1,28 @@
 [
     {
-       "nombreTarea": "Apoyar al nuevo proyecto",
-       "fechaFinal": "12/05/2021",       
+       "tituloTarea": "Apoyar al nuevo proyecto",
+       "fechaLimite": "12/05/2021",       
        "descripcion": "Dar apoyo al nuevo grupo en sus areas de dominio"
     },
     {
-       "nombreTarea": "Crear MockUp",
-       "fechaFinal": "29/05/2021",
+       "tituloTarea": "Crear MockUp",
+       "fechaLimite": "29/05/2021",
        "integrantes": "Maria seña",
        "descripcion": "Debe desarrolar un mockup para el 'proyecto crea mi casita'"
     },
     {
-       "nombreTarea": "Analisis Encuesta",
-       "fechaFinal": "12/05/2021",           
+       "tituloTarea": "Analisis Encuesta",
+       "fechaLimite": "12/05/2021",           
        "descripcion": "Analizar los datos que genero la encuesta del proyecto 'crea mi casita'"
+    },
+    {
+       "tituloTarea": "Realizar Invenario",
+       "fechaLimite": "11/05/2021",           
+       "descripcion": "Realizar Ivnventario de los activos computacionales de la empresa"
+    },
+    {
+       "tituloTarea": "Matenimiento",
+       "fechaLimite": "30/05/2021",           
+       "descripcion": "realizar  matenimiento a los equipos de la empresa"
     }  
  ]

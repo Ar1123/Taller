@@ -1,18 +1,16 @@
 import { TajetaTarea } from "./tarejas.js";
 import { Resources } from "./resources/peticion.js";
-import  { Tarea} from "./actividad.js";
-
-
+import { Tarea } from "./actividad.js";
 
 /**************************VARIABLES GLOBALES****************************************/
 const btnAbrir = document.getElementById("abirformulario"),
-  cajafor = document.getElementById("caja-formulario"),
-  formulario = document.getElementById("formulario"),
-  btnCerrar = document.getElementById("cerrar"),
-  btnCrearActividad = document.getElementById("aniade-datos"),
-  tarjetaTarea = new TajetaTarea(),
-  resources = new Resources();
-let data = []; //contiene los datos de todas las tareas que son creadas
+      cajafor = document.getElementById("caja-formulario"),
+      formulario = document.getElementById("formulario"),
+      btnCerrar = document.getElementById("cerrar"),
+      btnCrearActividad = document.getElementById("aniade-datos"),
+      tarjetaTarea = new TajetaTarea(),
+      resources = new Resources();
+let tareas = []; //contiene los datos de todas las tareas que son creadas
 
 /***********************PARA ABRIR EL  FORMULARIO**********************/
 btnAbrir.addEventListener("click", () =>
@@ -35,8 +33,6 @@ btnCrearActividad.addEventListener("click", (e) => {
     colaboradores = document.getElementById("colaboradores").value,
     descripcion = document.getElementById("descripcion").value;
 
-  
-
   let object = {
     tituloTarea,
     fechaLimite,
@@ -46,13 +42,18 @@ btnCrearActividad.addEventListener("click", (e) => {
 
   const functionPromise = () => {
     return new Promise((resolve, reject) => {
-      if (object.tituloTarea != "" && object.fechaLimite !='' && object.colaboradores !='' &&  object.descripcion!='') {
+      if (
+        object.tituloTarea != "" &&
+        object.fechaLimite != "" &&
+        object.colaboradores != "" &&
+        object.descripcion != ""
+      ) {
         console.log(object);
         const tarea = new Tarea(object);
         tarjetaTarea.getContenidoMessage("Creando Tarea...");
         setTimeout(() => {
-          console.log(tarea);
-          resolve(tarea);
+          //console.log(tarea);
+          resolve(object);
           cajafor.classList.remove("abirformulario");
           formulario.classList.remove("abirformulario");
           document.getElementById("form").reset();
@@ -64,21 +65,20 @@ btnCrearActividad.addEventListener("click", (e) => {
     });
   };
 
-  const functionAsync= async () => {
+  const functionAsync = async () => {
     try {
       const res = await functionPromise();
-      data.push(res);      
-      tarjetaTarea.agregarTarea(res);      
+      tareas.push(res);
+      tarjetaTarea.agregarTarea(res);
     } catch (error) {
       console.log(error);
     } finally {
-      
       setTimeout(() => {
         document.querySelector(".message").remove();
       }, 1500);
     }
   };
-  
+
   functionAsync();
 });
 
@@ -89,8 +89,9 @@ document.getElementById("tareas-progreso").addEventListener("click", (e) => {
     const elementoPadre =
       e.target.parentElement.parentElement.parentElement.parentElement;
     const titulo = elementoPadre.getElementsByTagName("h4")[0].innerHTML;
-    const datosTarea = data.find((d) => d.tituloTarea === titulo);
-    data.splice(titulo);
+    const datosTarea = tareas.find((d) => d.tituloTarea === titulo);
+    
+    console.log(tareas);
     tarjetaTarea.tareaTerminada(datosTarea);
     elementoPadre.remove();
   }
@@ -104,8 +105,7 @@ document.getElementById("tarea-creada").addEventListener("click", (e) => {
     const elementoPadre =
       e.target.parentElement.parentElement.parentElement.parentElement;
     const titulo = elementoPadre.getElementsByTagName("h4")[0].innerHTML;
-    const datosTarea = data.find((d) => d.tituloTarea === titulo);
-    data.splice(titulo);
+    const datosTarea = tareas.find((d) => d.tituloTarea === titulo);    
     tarjetaTarea.tareaProgreso(datosTarea);
     elementoPadre.remove();
   }
@@ -114,10 +114,36 @@ document.getElementById("tarea-creada").addEventListener("click", (e) => {
 });
 /******************************************************Cargar  tarjetas predeterminadas */
 
+addEventListener("load", () => { 
+    resources.getUSerDataAA().then((data) =>{
+      let name =[] 
+        data.forEach(e=>{
+          name.push( {name:e.name});
+        })        
+        let i =0;
+      resources.getDatosLocal().then((data1) => {        
+        data1.forEach(d=>{
+          
+        
+          d.colaboradores = name[i].name +" , "+ name[data1.length-i].name;
+          tareas.push(d);
+        
+          i++;
+        });            
+        
+        for (let i = 0; i < data1.length; i++) {
+          if(i<1){
+            tarjetaTarea.agregarTarea(data1[i]);
+          }else if(i>1 && i<4){
+              tarjetaTarea.tareaProgreso(data1[i]);
+          }else{
+              tarjetaTarea.tareaTerminada(data1[1]);
+          }
+          
+        }
+    });
+  });
+    
 
-addEventListener("load", () => {
-  resources.getUSerDataAA()
-           .then(data=>console.log(data))
-           .catch(e=>console.log('Error en la conexion',e));
   
 });

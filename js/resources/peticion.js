@@ -1,16 +1,19 @@
 export class Resources {
   getUserDataF() {
     return fetch("https://jsonplaceholder.typicode.com/users")
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((e) => console.log("Error solcitando datos",e));
+  
   }
 
   getUSerDataAA = async() =>{
     try{
            const res  = await fetch('https://jsonplaceholder.typicode.com/users');
            if(res.status==200){
-            const data = await res.json();
+             let resul;
+            const data = await res.json();      
+            data.forEach(element => {
+              resul = element.name;                
+            }); 
+            
             return data;
            }else{             
              throw 'Error en la conexión';
@@ -19,4 +22,15 @@ export class Resources {
       console.log('ERROR: ', e);
     }
   }
+
+  getDatosLocal  =async()=>{
+    try {
+        const res  = await fetch('./db/json_local.json');
+        const data = await res.json();
+        return data;
+    }catch(e){
+        console.log('ERROR',e);
+    }
+  }
+
 }

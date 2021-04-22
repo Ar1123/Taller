@@ -70,7 +70,7 @@ export class TajetaTarea {
         <h4 id="title">${tarea.tituloTarea}</h4>
         <ul>
             <li>
-                <i class="fas fa-people-carry" style="color: green;" id="mover"></i>
+                <i class="far fa-check-circle" style="color: green;" id="mover"></i>                
             </li>            
         </ul>
     </div>
