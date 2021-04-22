@@ -3,18 +3,16 @@ import { Resources } from "./resources/peticion.js";
 
 /**************************VARIABLES GLOBALES****************************************/
 const btnAbrir = document.getElementById("abirformulario"),
-  cajafor = document.getElementById("caja-formulario"),
-  formulario = document.getElementById("formulario"),
-  btnCerrar = document.getElementById("cerrar"),
-  btnCrearActividad = document.getElementById("aniade-datos"),
-  tarjetaTarea = new TajetaTarea(),
-  resources = new Resources();
+        cajafor = document.getElementById("caja-formulario"),
+        formulario = document.getElementById("formulario"),
+        btnCerrar = document.getElementById("cerrar"),
+        btnCrearActividad = document.getElementById("aniade-datos"),
+        tarjetaTarea = new TajetaTarea(),
+        resources = new Resources();
 let tareas = []; //contiene los datos de todas las tareas que son creadas
 
 /***********************PARA ABRIR EL  FORMULARIO**********************/
-btnAbrir.addEventListener("click", () =>
-  cajafor.classList.add("abirformulario")
-);
+btnAbrir.addEventListener("click", () =>  cajafor.classList.add("abirformulario"));
 
 /***********************PARA CERRAR EL  FORMULARIO**********************/
 btnCerrar.addEventListener("click", (e) => {
@@ -31,7 +29,6 @@ btnCrearActividad.addEventListener("click", (e) => {
     fechaLimite = document.getElementById("fechaLimite").value,
     colaboradores = document.getElementById("colaboradores").value,
     descripcion = document.getElementById("descripcion").value;
-
   let object = {
     tituloTarea,
     fechaLimite,
@@ -50,37 +47,39 @@ btnCrearActividad.addEventListener("click", (e) => {
         //console.log(object);
 
         tarjetaTarea.getContenidoMessage("Creando Tarea...");
-        setTimeout(() => {          
+        setTimeout(() => {
           resolve(object);
           cajafor.classList.remove("abirformulario");
           formulario.classList.remove("abirformulario");
           document.getElementById("form").reset();
         }, 2000);
-      } else {        
-        reject(new Error("Los campos no han recibido datos"));
+      } else {
+        reject(new Error("Los campos no ha recibido datos"));
       }
     });
   };
 
-functionPromise()
-                .then(res=>{
-                  tareas.push(res);
-                  tarjetaTarea.agregarTarea(res);
-                  document.querySelector(".message").remove();
-                }).catch(e=>{
-                  tarjetaTarea.getContenidoMessage("Por favor Llena todos los campos");
-                  console.error(e.message);
-                  setTimeout(() => {
-                    document.querySelector(".message").remove();
-                  }, 1500);
-                });
-   /*const functionAsync = () => {
+
+  functionPromise()
+    .then((res) => {
+      tareas.push(res);
+      tarjetaTarea.agregarTarea(res);
+      document.querySelector(".message").remove();
+    })
+    .catch((e) => {
+      tarjetaTarea.getContenidoMessage("Por favor Llena todos los campos");
+      console.error(e.message);
+      setTimeout(() => {
+        document.querySelector(".message").remove();
+      }, 1500);
+    });
+  /*const functionAsync = async () => {
     try {
-     const res = await functionPromise();
-     tareas.push(res);
-     console.log(tareas);
-      tarjetaTarea.agregarTarea(res);    
-    } catch (error) {      
+      const res = await functionPromise();
+      tareas.push(res);
+      //console.log(tareas);
+      tarjetaTarea.agregarTarea(res);
+    } catch (error) {
       tarjetaTarea.getContenidoMessage("Por favor Llena todos los campos");
       console.error(error.message);
     } finally {
@@ -92,7 +91,6 @@ functionPromise()
 
   functionAsync();*/
 });
-
 
 /***************************************Mover Tarjeta a progreso**********************************/
 
@@ -124,44 +122,48 @@ document.getElementById("tarea-creada").addEventListener("click", (e) => {
   e.preventDefault();
 });
 /************************Cargar  tarjetas predeterminadas******************************************/
-
-addEventListener("load", () => {
-  resources.getUSerDataAA().then((data) => {
-    let name = [];
-    data.forEach((e) => {
-      name.push({ name: e.name });
-    });
-    let i = 0;
-    resources.getDatosLocal().then((data1) => {
-      data1.forEach((d) => {
-        d.colaboradores = name[i].name + " , " + name[data1.length - i].name;
-        tareas.push(d);
-
-        i++;
-      });
-
-      for (let i = 0; i < data1.length; i++) {
-        if (i < 1) {
-          tarjetaTarea.agregarTarea(data1[i]);
-        } else if (i > 1 && i < 4) {
-          tarjetaTarea.tareaProgreso(data1[i]);
-        } else {
-          tarjetaTarea.tareaTerminada(data1[1]);
+  const cargar = async ()=>{
+  try
+    {
+      let name = [];
+      let i    = 0;
+      const username = await resources.getUSerDataAA();
+      const tareasL  = await resources.getDatosLocal();
+      if(username.length!=0){
+        username.forEach(elemento=>{
+            name.push({name: elemento.name});
+        });             
+        tareasL.forEach(d => {
+          d.colaboradores =name[i].name + " , " + name[tareasL.length - i].name;
+          tareas.push(d);
+          i++;
+    });    
+        for (let i = 0; i < tareasL.length; i++) {
+          if (i < 1) {
+            tarjetaTarea.agregarTarea(tareasL[i]);
+          } else if (i > 1 && i < 4) {
+            tarjetaTarea.tareaProgreso(tareasL[i]);
+          } else {
+            tarjetaTarea.tareaTerminada(tareasL[1]);
+          }
+          
         }
-      }
-    });
-  });
-});
+      }    
+    }catch(e){
+      console.error('ERROR: ',e);
+    }
 
+  }
+
+addEventListener('load',()=>cargar());
 
 /********************************Borrar tarjeta***************************************************/
 
-document.getElementById('tarea-creada').addEventListener('click',(e)=>{
-  
-  if(e.target.id==='borrar'){
-      const elementoPadre =
+document.getElementById("tarea-creada").addEventListener("click", (e) => {
+  if (e.target.id === "borrar") {
+    const elementoPadre =
       e.target.parentElement.parentElement.parentElement.parentElement;
-      elementoPadre.remove();
-    }
-    e.preventDefault();
+    elementoPadre.remove();
+  }
+  e.preventDefault();
 });
