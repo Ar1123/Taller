@@ -1,0 +1,18 @@
+[
+    {
+       "nombreTarea": "Apoyar al nuevo proyecto",
+       "fechaFinal": "12/05/2021",       
+       "descripcion": "Dar apoyo al nuevo grupo en sus areas de dominio"
+    },
+    {
+       "nombreTarea": "Crear MockUp",
+       "fechaFinal": "29/05/2021",
+       "integrantes": "Maria seña",
+       "descripcion": "Debe desarrolar un mockup para el 'proyecto crea mi casita'"
+    },
+    {
+       "nombreTarea": "Analisis Encuesta",
+       "fechaFinal": "12/05/2021",           
+       "descripcion": "Analizar los datos que genero la encuesta del proyecto 'crea mi casita'"
+    }  
+ ]

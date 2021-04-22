@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+        integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+
+    <title>Tareas</title>
+</head>
+
+<body>
+    <nav>
+        <h1>Crea Tareas Para Ti O Para Tu grupo</h1>
+    </nav>
+    <div class="container">
+        <div class="tareas-creada">
+            <div class="crear-tarea">
+                <button id="abirformulario"> <i class="fas fa-plus"></i></button>
+            </div>
+            <div id="tarea-creada">
+
+            </div>
+        </div>
+        <div class="tareas-progreso">
+            <div id="tareas-progreso"></div>
+        </div>
+        <div class="tareas-finalizada">
+            <div id="tareas-finalizada"></div>
+        </div>
+    </div>
+
+    <div class="caja-formulario" id="caja-formulario">
+        <div id="message">
+            
+        </div>
+        <div class="formulario" id="formulario">
+            <div class="opc">
+                <a id="cerrar"><i class="fas fa-times" style="color: red; float: right; cursor: pointer;"></i> </a>
+            </div>
+            <h3>Ingresa una actividad</h3>
+            <br>
+            <form id="form">
+                <label>Nombre de la tarea</label>
+                <input type="text" placeholder="Mi primera Tarea" id="tituloTarea">
+                <label>Fecha Limite</label>
+                <input type="date" id="fechaLimite">
+                <label>Colaboradores</label>
+                <input type="text" placeholder="Colaborador 1,Colaborador 2, etc" id="colaboradores">
+                <label>Agrega una descripcion</label><br>
+                <textarea placeholder="Esta  es mi primera tarea" id="descripcion"></textarea>
+                <input type="submit" name="" value="Crear Tarea" id="aniade-datos">
+            </form>
+        </div>
+    </div>
+
+    <script src="js/app.js" type="module"></script>
+</body>
+
+</html>
