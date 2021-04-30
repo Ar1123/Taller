@@ -151,8 +151,7 @@ document.getElementById("tarea-creada").addEventListener("click", (e) => {
       }    
     }catch(e){
       console.error('ERROR: ',e);
-    }
-
+    }    
   }
 
 addEventListener('load',()=>cargar());
